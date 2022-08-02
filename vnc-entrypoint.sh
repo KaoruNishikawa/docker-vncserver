@@ -19,11 +19,9 @@ PASSWDPATH=/root/.vnc/passwd
 echo ${PASSWD:-password} | vncpasswd -f > $PASSWDPATH
 chmod 600 $PASSWDPATH
 
-gsettings set org.gnome.desktop.default-applications.terminal exec 'xterm'
+export VNCARGS=$DISPLAYNO -depth ${DEPTH:-16} -geometry ${GEOMETRY:-1024x768}
 
-vncserver $DISPLAYNO \
-    -depth ${DEPTH:-16} \
-    -geometry ${GEOMETRY:-1024x768}
+vncserver $VNCARGS
 
 trap "vncserver -kill $DISPLAYNO; exit 0" SIGINT SIGKILL SIGTERM
 #tail -f /root/.vnc/*$DISPLAYNO.log
