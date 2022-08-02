@@ -4,9 +4,9 @@ FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER=root
 
-RUN apt-get -qqy update; \
-    apt-get -qqy install --no-install-recommends ubuntu-desktop; \
-    apt-get -qqy install \
+RUN apt-get -y update; \
+    apt-get -y install --no-install-recommends ubuntu-desktop; \
+    apt-get -y install \
     gnome-panel \
     gnome-settings-daemon \
     gnome-terminal \
