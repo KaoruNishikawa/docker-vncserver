@@ -26,6 +26,6 @@ COPY xstartup /root/.vnc/
 
 ENTRYPOINT ["/vnc-entrypoint.sh"]
 
-HEALTHCHECK ---interval=30s --timeout=15s --start-period=15s --retries=1 \
+HEALTHCHECK --interval=30s --timeout=15s --start-period=15s --retries=1 \
     CMD if test -f /root/.vnc/*.pid; then rm /tmp/.X11-unix/X* /tmp/.X*-lock && vncserver $VNCARGS; fi
 
