@@ -29,7 +29,7 @@ trap "vncserver -kill $DISPLAYNO; exit 0" SIGINT SIGKILL SIGTERM
 #tail -f /root/.vnc/*$DISPLAYNO.log
 while true
 do
-    sleep 15
+    sleep 15s
     if vncserver $DISPLAYNO > /dev/null 2>&1
     then
         rm /tmp/.X11-unix/X* /tmp/.X*-lock
