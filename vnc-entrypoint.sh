@@ -19,10 +19,22 @@ PASSWDPATH=/root/.vnc/passwd
 echo ${PASSWD:-password} | vncpasswd -f > $PASSWDPATH
 chmod 600 $PASSWDPATH
 
-export VNCARGS=$DISPLAYNO -depth ${DEPTH:-16} -geometry ${GEOMETRY:-1024x768}
+VNC_COMMAND="vncserver $DISPLAYNO \
+    -depth ${DEPTH:-16} \
+    -geometry ${GEOMETRY:-1024x768}"
 
-vncserver $VNCARGS
+eval $VNC_COMMAND
 
 trap "vncserver -kill $DISPLAYNO; exit 0" SIGINT SIGKILL SIGTERM
 #tail -f /root/.vnc/*$DISPLAYNO.log
-while true; do sleep 5; done
+while true
+do
+    sleep 15
+    if vncserver $DISPLAYNO > /dev/null 2>&1
+    then
+        rm /tmp/.X11-unix/X* /tmp/.X*-lock
+        pkill Xtightvnc
+        eval $VNC_COMMAND
+    fi
+done
+
