@@ -4,9 +4,9 @@ FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV USER=root
 
-RUN apt-get -qqy update; \
-    apt-get -qqy install --no-install-recommends ubuntu-desktop; \
-    apt-get -qqy install \
+RUN apt-get -y update; \
+    apt-get -y install --no-install-recommends ubuntu-desktop; \
+    apt-get -y install \
     gnome-panel \
     gnome-settings-daemon \
     gnome-terminal \
@@ -25,3 +25,7 @@ COPY vnc-entrypoint.sh /
 COPY xstartup /root/.vnc/
 
 ENTRYPOINT ["/vnc-entrypoint.sh"]
+
+HEALTHCHECK --interval=30s --timeout=15s --start-period=15s --retries=1 \
+    CMD ps | grep Xtightvnc > /dev/null 2>&1 || exit 1
+
