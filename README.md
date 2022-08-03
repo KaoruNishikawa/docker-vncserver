@@ -17,7 +17,7 @@ docker build . -t vncserver:0.1.0
 Run the following command and connect to the display at `vnc://1xx.xx.xx.xx:5921`.
 
 ```shell
-docker run -d -v $HOME:$HOME --network=host --restart=unless-stopped vncserver:0.1.0 -n 21
+docker run -it --rm -v $HOME:$HOME --network=host --restart=on-failure:3 vncserver:0.1.0 -n 21
 ```
 
 ## Acknowledgments
