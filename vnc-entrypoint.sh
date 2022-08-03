@@ -6,7 +6,6 @@ do
         n) DISPLAYNO=$OPTARG ;;
         d) DEPTH=$OPTARG ;;
         g) GEOMETRY=$OPTARG ;;
-        p) PASSWD=$OPTARG ;;
     esac
 done
 
@@ -16,7 +15,20 @@ then
 fi
 
 PASSWDPATH=/root/.vnc/passwd
-echo ${PASSWD:-password} | vncpasswd -f > $PASSWDPATH
+if [ ! -f $PASSWDPATH ]
+then
+    # https://stackoverflow.com/questions/22249029/how-to-safely-confirm-a-password-by-entering-it-twice-in-a-bash-script
+    while true
+    do
+        read -s -p "Set VNC password: " PASSWD1
+        echo
+        read -s -p "Enter password again: " PASSWD2
+        echo
+        [ $PASSWD1 = $PASSWD2 ] && break
+        echo "Please try again."
+    done
+    echo $PASSWD | vncpasswd -f > $PASSWDPATH
+fi
 chmod 600 $PASSWDPATH
 
 VNC_COMMAND="vncserver $DISPLAYNO \
