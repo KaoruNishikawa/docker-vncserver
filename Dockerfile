@@ -24,8 +24,7 @@ ENV LC_ALL=en_US.UTF-8
 COPY vnc-entrypoint.sh /
 COPY xstartup /root/.vnc/
 
-ENTRYPOINT ["/vnc-entrypoint.sh"]
+EXPOSE 5901
 
-HEALTHCHECK --interval=30s --timeout=15s --start-period=15s --retries=1 \
-    CMD ps | grep Xtightvnc > /dev/null 2>&1 || exit 1
+ENTRYPOINT ["/vnc-entrypoint.sh"]
 
