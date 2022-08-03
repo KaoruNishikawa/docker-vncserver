@@ -24,5 +24,7 @@ ENV LC_ALL=en_US.UTF-8
 COPY vnc-entrypoint.sh /
 COPY xstartup /root/.vnc/
 
+EXPOSE 5901
+
 ENTRYPOINT ["/vnc-entrypoint.sh"]
 
