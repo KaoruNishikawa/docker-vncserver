@@ -1,6 +1,15 @@
 #!/bin/bash
 
-while getopts 'n:d:g:p:' option
+usage="\n
+docker run -it -v \$HOME:\$HOME --network=host --restart=on-failure:3 --rm ghcr.io/KaoruNishikawa/vncserver:latest [-n int] [-d int] [-g intxint]\n\n
+where\n
+\t -n  Display number (default 1 if available)\n
+\t -d  VNC desktop pixel depth in bits (default 16)\n
+\t -g  Size of VNC desktop in widthxheight format (default 1024x768)\n
+"
+echo -e $usage
+
+while getopts 'n:d:g:' option
 do
     case "$option" in
         n) DISPLAYNO=$OPTARG ;;
@@ -23,11 +32,11 @@ then
         read -s -p "Set VNC password: " PASSWD1
         echo
         read -s -p "Enter password again: " PASSWD2
-        echo
+        echo -e '\n'
         [ $PASSWD1 = $PASSWD2 ] && break
         echo "Please try again."
     done
-    echo $PASSWD | vncpasswd -f > $PASSWDPATH
+    echo $PASSWD1 | vncpasswd -f > $PASSWDPATH
 fi
 chmod 600 $PASSWDPATH
 
@@ -37,8 +46,10 @@ VNC_COMMAND="vncserver $DISPLAYNO \
 
 eval $VNC_COMMAND
 
+echo -e '\033[46mCtrl+C : Terminate the VNC server.\033[0m'
+echo -e '\033[46mCtrl+P then Ctrl+Q : Run the server in background.\033[0m'
+
 trap "vncserver -kill $DISPLAYNO; exit 0" SIGINT SIGKILL SIGTERM
-#tail -f /root/.vnc/*$DISPLAYNO.log
 while true
 do
     sleep 15s
