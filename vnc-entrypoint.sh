@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage="\n
-docker run -it -v \$HOME:\$HOME -p 5920:5901 --restart=on-failure:3 ghcr.io/KaoruNishikawa/docker-vncserver:latest [-d int] [-g intxint]\n\n
+docker run -it -v \$HOME:\$HOME -p 5920:5901 --restart=on-failure:3 ghcr.io/kaorunishikawa/docker-vncserver:latest [-d int] [-g intxint]\n\n
 where\n
 \t -d : VNC desktop pixel depth in bits (default 16)\n
 \t -g : Size of VNC desktop in widthxheight format (default 1024x768)\n
